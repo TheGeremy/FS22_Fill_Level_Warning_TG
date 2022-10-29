@@ -3,9 +3,12 @@
 --
 -- # Author:  		  SM/Sachsenfarmer
 -- # date: 			 		25.11.19
+-- 1.0.0.0 Convert from LS19 to LS22
+-- 1.0.0.1 new loading system for the Soundsamples
 --
 -- # Enhancement: 	the.geremy
 -- # date: 	  		  28.09.2022
+---- 1.2.0.1 code optimization and added in game notification
 
 fillLevelWarning = {}
 fillLevelWarning.MOD_NAME = g_currentModName
@@ -14,43 +17,25 @@ fillLevelWarning.LevelOneWarning = 0.85
 fillLevelWarning.LevelTwoWarning = 0.95
 
 -- volume level of warning can be adjusted here
-fillLevelWarning.WarningVolume = 0.4 -- 70%
+fillLevelWarning.WarningVolume = 0.6 -- 60%
 
--- color of notification
----- { 0.5200, 0.0420, 0.0270, 1 } -- red
-fillLevelWarning.NOTIFICATION_COLOR =  { 0.0003, 0.5647, 0.9822, 1 }; -- cyan
+sounds = {
+	["AGCOBeepSound"] = "sounds/AGCO_beep.wav" ,
+	["ClaasBeepSound"] = "sounds/Claas_beep.wav",
+	["GrimmeBeepSound"] = "sounds/Grimme_beep.wav",
+	["HolmerBeepSound"] = "sounds/Holmer_beep.wav",
+	["JohnDeereSound"] = "sounds/JohnDeere_beep.wav",
+	["NewHollandSound"] = "sounds/JohnDeere_beep.wav",
+	["RopaSound"] = "sounds/Ropa_beep.wav",
+	["DefaultWaringBeep"] = "data/sounds/ui/uiSelect.ogg"
+}
 
-AGCOBeepSound = createSample("AGCOBeep")
-local file = g_currentModDirectory.."sounds/AGCO_beep.wav"
-loadSample(AGCOBeepSound, file, false)
+mySamples = {}
 
-ClaasBeepSound = createSample("ClaasBeep")
-local file = g_currentModDirectory.."sounds/Claas_beep.wav"
-loadSample(ClaasBeepSound, file, false)
-
-GrimmeBeepSound = createSample("GrimmeBeep")
-local file = g_currentModDirectory.."sounds/Grimme_beep.wav"
-loadSample(GrimmeBeepSound, file, false)
-
-HolmerBeepSound = createSample("HolmerBeep")
-local file = g_currentModDirectory.."sounds/Holmer_beep.wav"
-loadSample(HolmerBeepSound, file, false)
-
-JohnDeereSound = createSample("JohnDeereBeep")
-local file = g_currentModDirectory.."sounds/JohnDeere_beep.wav"
-loadSample(JohnDeereSound, file, false)
-
-NewHollandSound = createSample("NewHollandBeep")
-local file = g_currentModDirectory.."sounds/NH_beep.wav"
-loadSample(NewHollandSound, file, false)
-
-RopaSound = createSample("RopaBeep")
-local file = g_currentModDirectory.."sounds/Ropa_beep.wav"
-loadSample(RopaSound, file, false)
-
-DefaultWaringSound = createSample("DefaultWaringBeep")
-local file = "data/sounds/ui/uiSelect.ogg";
-loadSample(DefaultWaringBeep, file, false)
+for k, v in pairs(sounds) do
+	mySamples[k] = createSample(k)
+	loadSample(mySamples[k], g_currentModDirectory..v, false)
+end
 
 function fillLevelWarning.prerequisitesPresent(specializations)
   return true
@@ -117,25 +102,24 @@ end
 
 function fillLevelWarning:PlayWarningSound(self)
 	if self.brand == "AGCO" or self.brand == "FENDT" or self.brand == "MASSEYFERGUSON" or self.brand == "CHALLENGER" then
-		playSample(AGCOBeepSound ,1 ,self.loud ,1 ,0 ,0)
+		playSample(mySamples["AGCOBeepSound"] ,1 ,self.loud ,1 ,0 ,0)
 	elseif self.brand == "CLAAS" then
-		playSample(ClaasBeepSound ,1 ,self.loud ,1 ,0 ,0)
+		playSample(mySamples["ClaasBeepSound"] ,1 ,self.loud ,1 ,0 ,0)
 	elseif self.brand == "GRIMME" then
-		playSample(GrimmeBeepSound ,1 ,self.loud ,1 ,0 ,0)
+		playSample(mySamples["GrimmeBeepSound"] ,1 ,self.loud ,1 ,0 ,0)
 	elseif self.brand == "HOLMER" then
-		playSample(HolmerBeepSound ,1 ,self.loud ,1 ,0 ,0)
+		playSample(mySamples["HolmerBeepSound"] ,1 ,self.loud ,1 ,0 ,0)
 	elseif self.brand == "JOHNDEERE" then
-		playSample(JohnDeereSound ,1 ,self.loud ,1 ,0 ,0)	
+		playSample(mySamples["JohnDeereSound"] ,1 ,self.loud ,1 ,0 ,0)
 	elseif self.brand == "NEWHOLLAND" or self.brand == "CASEIH" then
-		playSample(NewHollandSound ,1 ,self.loud ,1 ,0 ,0)	
+		playSample(mySamples["NewHollandSound"] ,1 ,self.loud ,1 ,0 ,0)
 	elseif self.brand == "ROPA" then
-		playSample(RopaSound,1 ,self.loud ,1 ,0 ,0)
+		playSample(mySamples["RopaSound"],1 ,self.loud ,1 ,0 ,0)
 	else
-		playSample(DefaultWaringBeep,1 ,self.loud ,1 ,0 ,0)
+		playSample(mySamples["DefaultWaringBeep"],1 ,self.loud ,1 ,0 ,0)
 	end	
 end
 
 function fillLevelWarning:firstToUpper(str)
-		str = string.lower(str)
-    return (str:gsub("^%l", string.upper))
+	return (string.lower(str):gsub("^%l", string.upper))
 end

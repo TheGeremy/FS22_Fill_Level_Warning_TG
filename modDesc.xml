@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="64">
 
-   <author>LSM/SachsenFarmer/the.geremy</author>
+   <author>LSM/SachsenFarmer, the.geremy</author>
    	
-	<version>1.2.0.0</version>
+	<version>1.2.0.1</version>
    
     <title>
 		<en>Filllevel Warning</en>
@@ -16,8 +16,15 @@
 When the Fill level reaches 85% and 95%, a signal tone will be heard.
 When the Fill Level has reached 95% the Beacon Lights are activated.
 
-V 1.2.0.0
-- info message will display warning about the fill level.
+V 1.0.0.0
+- convert from LS19 to LS22
+
+V 1.0.0.1
+- new loading system for the Soundsamples
+
+V 1.2.0.1
+- info message will display warning about the fill level
+- code optimization
 ]]>
 		</en>	
 		<de>
