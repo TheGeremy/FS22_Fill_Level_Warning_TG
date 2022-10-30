@@ -25,16 +25,16 @@ sounds = {
 	["GrimmeBeepSound"] = "sounds/Grimme_beep.wav",
 	["HolmerBeepSound"] = "sounds/Holmer_beep.wav",
 	["JohnDeereSound"] = "sounds/JohnDeere_beep.wav",
-	["NewHollandSound"] = "sounds/JohnDeere_beep.wav",
-	["RopaSound"] = "sounds/Ropa_beep.wav",
-	["DefaultWaringBeep"] = "data/sounds/ui/uiSelect.ogg"
+	["NewHollandSound"] = "sounds/NH_beep.wav",
+	["RopaSound"] =  "sounds/Ropa_beep.wav",
+	["DefaultBeep"] = "sounds/defalut_beep.wav"
 }
 
 mySamples = {}
 
-for k, v in pairs(sounds) do
-	mySamples[k] = createSample(k)
-	loadSample(mySamples[k], g_currentModDirectory..v, false)
+for name, path in pairs(sounds) do
+	mySamples[name] = createSample(name)
+	loadSample(mySamples[name], g_currentModDirectory .. path, false)
 end
 
 function fillLevelWarning.prerequisitesPresent(specializations)
@@ -116,7 +116,7 @@ function fillLevelWarning:PlayWarningSound(self)
 	elseif self.brand == "ROPA" then
 		playSample(mySamples["RopaSound"],1 ,self.loud ,1 ,0 ,0)
 	else
-		playSample(mySamples["DefaultWaringBeep"],1 ,self.loud ,1 ,0 ,0)
+		playSample(mySamples["DefaultBeep"],1 ,self.loud ,1 ,0 ,0)
 	end	
 end
 
